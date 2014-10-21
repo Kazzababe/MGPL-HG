@@ -8,5 +8,6 @@ public class KitHunter extends Kit {
 		super(name, cost, item);
 		
 		this.setBowDamageModifier(1.25);
+		this.setHealth(36);
 	}
 }

@@ -7,6 +7,7 @@ public class KitRunner extends Kit {
 	public KitRunner(String name, int cost, ItemStack item) {
 		super(name, cost, item);
 		
-		this.setSpeedModifier(1.2);
+		this.setSpeedModifier(1.3);
+		this.setHealth(32);
 	}
 }

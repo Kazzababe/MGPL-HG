@@ -9,5 +9,6 @@ public class KitWarrior extends Kit {
 		
 		this.setSwordDamageModifier(1.15);
 		this.setAxeDamageModifier(1.15);
+		this.setHealth(36);
 	}
 }

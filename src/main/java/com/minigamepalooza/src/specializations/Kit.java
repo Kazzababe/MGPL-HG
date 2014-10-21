@@ -20,6 +20,7 @@ public class Kit {
 	private double bowDamageModifier = 1.0;
 	private double armourModifier = 1.0;
 	private double speedModifier = 1.0;
+	private double health = 20.0;
 	
 	private String name;
 	private ItemStack item;
@@ -66,6 +67,10 @@ public class Kit {
 		this.speedModifier = modifier;
 	}
 	
+	protected void setHealth(double health) {
+		this.health = health;
+	}
+	
 	public double getSwordDamageModifier() {
 		return this.swordDamageModifier;
 	}
@@ -84,5 +89,9 @@ public class Kit {
 	
 	public double getSpeedModifier() {
 		return this.speedModifier;
+	}
+	
+	public double getHealth() {
+		return this.health;
 	}
 }

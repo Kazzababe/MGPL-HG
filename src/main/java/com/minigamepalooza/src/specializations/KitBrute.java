@@ -8,5 +8,6 @@ public class KitBrute extends Kit {
 		super(name, cost, item);
 		
 		this.setArmourModifier(1.25);
+		this.setHealth(38);
 	}
 }

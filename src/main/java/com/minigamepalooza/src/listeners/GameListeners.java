@@ -5,6 +5,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerLoginEvent;
+import org.bukkit.event.player.PlayerLoginEvent.Result;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.minigamepalooza.core.events.game.GameStartEvent;
@@ -29,7 +31,10 @@ public class GameListeners implements Listener {
 					gamePlayer.addData("specialty", Kit.WARRIOR);
 				} else {
 					Kit kit = (Kit) gamePlayer.get("specialty");
+					
 					player.setWalkSpeed(0.2F * (float) kit.getSpeedModifier());
+					player.setMaxHealth(kit.getHealth());
+					player.setHealth(player.getMaxHealth());
 				}
 			}
 		}
@@ -39,10 +44,16 @@ public class GameListeners implements Listener {
 	}
 	
 	@EventHandler
+	public void onPlayerLogin(PlayerLoginEvent event) {
+		if(!HungerGames.GAME_READY) {
+			event.disallow(Result.KICK_OTHER, "The game is still being setup, try joining later");
+		}
+	}
+	
+	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		final Player player = event.getPlayer();
 		new BukkitRunnable() {
-			@SuppressWarnings("deprecation")
 			public void run() {
 				player.getInventory().setItem(0, Items.getItem("SelectionGUI").getItem());
 				player.updateInventory();
