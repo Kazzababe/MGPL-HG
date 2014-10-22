@@ -16,13 +16,17 @@ public class GetBlocksToFall extends BukkitRunnable {
     @Override
     public void run() {
         Location c1 = HungerGames.WORLD_SPAWN.getDimensions()[0].getLocation(HungerGames.WORLD),
-                c2 = HungerGames.WORLD_SPAWN.getDimensions()[1].getLocation(HungerGames.WORLD);
+                 c2 = HungerGames.WORLD_SPAWN.getDimensions()[1].getLocation(HungerGames.WORLD);
         World world = ((CraftWorld) c1.getWorld()).getHandle();
-        for (int x = c1.getBlockX(); x < c2.getBlockX(); x++) {
-            for (int z = c1.getBlockZ(); z < c2.getBlockZ(); z++) {
-                for (int i = 0; i < 256; i++) {
+        System.out.println(c1 + ":" + c2);
+        for(int x = c1.getBlockX(); x < c2.getBlockX(); x++) {
+            for(int z = c1.getBlockZ(); z < c2.getBlockZ(); z++) {
+                for(int i = 0; i < 256; i++) {
                     int type = CraftMagicNumbers.getId(world.getType(x, i, z));
-                    if (type != 0) {
+                    if(!c1.getWorld().getBlockAt(x, i, z).getChunk().isLoaded()) {
+                    	c1.getWorld().getBlockAt(x, i, z).getChunk().load(true);
+                    }
+                    if(type != 0) {
                         HungerGames.BLOCKS.add(c1.getWorld().getBlockAt(x, i, z));
                     }
                 }

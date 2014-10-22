@@ -1,9 +1,14 @@
 package com.minigamepalooza.src.listeners;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockFromToEvent;
+import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerLoginEvent.Result;
@@ -59,5 +64,20 @@ public class GameListeners implements Listener {
 				player.updateInventory();
 			}
 		}.runTaskLater(HungerGames.getInstance(), 10L);
+	}
+	
+	public void onBlockPhysics(BlockPhysicsEvent event) {
+		Material mat = event.getBlock().getType();
+		if(mat == Material.STATIONARY_WATER || mat == Material.STATIONARY_LAVA) {
+			event.setCancelled(true);
+		}
+	}
+	
+	@EventHandler
+	public void onBlockFromTo(BlockFromToEvent event) {
+		Block block = event.getToBlock();
+		if(block.getType() == Material.WATER || block.getType() == Material.LAVA) {
+			event.setCancelled(true);
+		}
 	}
 }
