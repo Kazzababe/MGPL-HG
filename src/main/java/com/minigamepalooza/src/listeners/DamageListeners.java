@@ -12,10 +12,12 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
+import com.minigamepalooza.base.api.ActionBar;
 import com.minigamepalooza.core.player.GamePlayer;
 import com.minigamepalooza.src.HungerGames;
 import com.minigamepalooza.src.entities.FakePlayer;
 import com.minigamepalooza.src.specializations.Kit;
+import com.minigamepalooza.src.timers.BeginDeathmatch;
 import com.minigamepalooza.src.timers.BeginFeast;
 import com.minigamepalooza.src.timers.RemoveDeadPlayer;
 
@@ -63,7 +65,9 @@ public class DamageListeners implements Listener {
 	
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerDamage(EntityDamageEvent event) {
-		System.out.println(event.getEntity() + ":" + event.isCancelled() + ":" + HungerGames.getGame().isRunning() + ":" + ((event.getEntity() instanceof Player)? HungerGames.getPlayer(((Player) event.getEntity())).isSpectating() : ""));
+		if(HungerGames.GAME_ENDED) {
+			event.setCancelled(true);
+		}
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR)
@@ -71,11 +75,17 @@ public class DamageListeners implements Listener {
 		GamePlayer player = HungerGames.getPlayer(event.getEntity());
 		
 		if(!HungerGames.FEAST_STARTED) {
-			if(HungerGames.getGame().getPlayers().size() <= 6) {
+			if(HungerGames.getGame().getPlayers().size() <= 8) {
+				ActionBar message = ActionBar.builder().title(ChatColor.BOLD + "" + ChatColor.GREEN + "DEATHMATCH WILL BE STARTING IN 60 SECONDS").build();
 				for(GamePlayer p : HungerGames.getGame().getPlayers()) {
-					p.sendMessage(ChatColor.RED + "Game Masters: " + ChatColor.GRAY + "A feast is about to begin at the center of the map");
+					message.send(p);
 				}
-				new BeginFeast().runTaskLater(HungerGames.getInstance(), 100L);
+				new BeginDeathmatch().runTask(HungerGames.getInstance());
+				//new BeginFeast().runTaskLater(HungerGames.getInstance(), 100L);
+			}
+		} else {
+			if(HungerGames.getPlayers().size() == 1) {
+				HungerGames.GAME_ENDED = true;
 			}
 		}
 		

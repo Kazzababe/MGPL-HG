@@ -35,8 +35,6 @@ public class PreGameCooldown extends BukkitRunnable {
 				HungerGames.PREGAME_COOLDOWN = false;
 				this.cancel();
 				
-				new MakeAllDaBootysDrop().runTaskTimer(HungerGames.getInstance(), 2L * 1, 2L * 1);
-				
 				break;
 		}
 		this.time++;

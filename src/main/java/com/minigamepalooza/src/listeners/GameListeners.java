@@ -14,9 +14,9 @@ import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerLoginEvent.Result;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import com.minigamepalooza.core.events.game.GameStartEvent;
+import com.minigamepalooza.base.items.Items;
 import com.minigamepalooza.core.game.Game;
-import com.minigamepalooza.core.items.Items;
+import com.minigamepalooza.core.game.events.GameStartEvent;
 import com.minigamepalooza.core.player.GamePlayer;
 import com.minigamepalooza.src.HungerGames;
 import com.minigamepalooza.src.specializations.Kit;

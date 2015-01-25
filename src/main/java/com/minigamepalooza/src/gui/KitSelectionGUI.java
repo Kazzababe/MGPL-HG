@@ -3,13 +3,13 @@ package com.minigamepalooza.src.gui;
 import org.bukkit.ChatColor;
 import org.bukkit.inventory.ItemStack;
 
-import com.minigamepalooza.core.guis.PlayerGUI;
+import com.minigamepalooza.base.gui.PlayerGUI;
+import com.minigamepalooza.base.player.PaloozaPlayer;
 import com.minigamepalooza.core.player.GamePlayer;
 import com.minigamepalooza.src.specializations.Kit;
 
 public class KitSelectionGUI extends PlayerGUI {
-
-	public KitSelectionGUI(GamePlayer player) {
+	public KitSelectionGUI(PaloozaPlayer player) {
 		super(player, "Select a specialty", (int) (Math.ceil(Kit.KITS.size() / 9.0) * 9.0));
 		
 		for(Kit kit : Kit.KITS) {
@@ -18,7 +18,7 @@ public class KitSelectionGUI extends PlayerGUI {
 	}
 
 	@Override
-	public void onClick(GamePlayer player, ItemStack item) {
+	public void onClick(PaloozaPlayer player, ItemStack item) {
 		for(Kit kit : Kit.KITS) {
 			if(kit.getItem().equals(item)) {
 				player.addData("specialty", kit);
@@ -28,7 +28,7 @@ public class KitSelectionGUI extends PlayerGUI {
 		}
 	}
 	
-	public static KitSelectionGUI getGUI(GamePlayer player) {
+	public static KitSelectionGUI getGUI(PaloozaPlayer player) {
 		return new KitSelectionGUI(player);
 	}
 }

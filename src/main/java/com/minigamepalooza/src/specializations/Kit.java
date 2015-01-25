@@ -6,7 +6,7 @@ import java.util.List;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-import com.minigamepalooza.core.utils.ItemBuilder;
+import com.minigamepalooza.base.utils.ItemBuilder;
 
 public class Kit {
 	public static final List<Kit> KITS = new ArrayList<Kit>();
