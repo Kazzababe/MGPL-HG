@@ -9,6 +9,7 @@ import java.util.Set;
 
 import me.paulbgd.blocks.api.BlocksAPI;
 import me.paulbgd.blocks.api.block.Blocks;
+import me.paulbgd.blocks.api.block.loader.SchematicFormat;
 import me.paulbgd.blocks.api.block.paster.Paster;
 
 import org.bukkit.Bukkit;
@@ -84,7 +85,7 @@ public class HungerGames extends PaloozaPlugin {
 			public void run() {
 				Blocks deathmatch = null;
 				try {
-					deathmatch = BlocksAPI.loadResource("dm.schematic", HungerGames.getInstance());
+					deathmatch = BlocksAPI.loadResource("dm.schematic", new SchematicFormat(), HungerGames.getInstance());
 				} catch(IOException e) {
 					e.printStackTrace();
 				}
@@ -92,6 +93,7 @@ public class HungerGames extends PaloozaPlugin {
 				try {
 					if(deathmatch != null) {
 						HungerGames.DEATHMATCH_LOCATION = HungerGames.WORLD_SPAWN.getFeastLocation().getLocation(HungerGames.WORLD).clone().add(1000, 0, 1000);
+						HungerGames.DEATHMATCH_LOCATION.setY(200);
 						deathmatch.paste(HungerGames.DEATHMATCH_LOCATION.getBlock(), Paster.SIMPLE_PASTER, Bukkit.getConsoleSender(), true, false, () -> {
 							getLogger().info("Deathmatch schematic pasted");
 							HungerGames.GAME_READY = true;
@@ -101,7 +103,7 @@ public class HungerGames extends PaloozaPlugin {
 					e.printStackTrace();
 				}
 			}
-		}.runTask(this);
+		}.runTaskLater(this, 1L);
 		
 		return Games.HungerGames;
 	}

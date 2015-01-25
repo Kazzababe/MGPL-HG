@@ -1,5 +1,8 @@
 package com.minigamepalooza.src.listeners;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
@@ -13,12 +16,11 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.minigamepalooza.base.api.ActionBar;
-import com.minigamepalooza.core.player.GamePlayer;
+import com.minigamepalooza.base.player.PaloozaPlayer;
 import com.minigamepalooza.src.HungerGames;
 import com.minigamepalooza.src.entities.FakePlayer;
 import com.minigamepalooza.src.specializations.Kit;
 import com.minigamepalooza.src.timers.BeginDeathmatch;
-import com.minigamepalooza.src.timers.BeginFeast;
 import com.minigamepalooza.src.timers.RemoveDeadPlayer;
 
 public class DamageListeners implements Listener {
@@ -29,7 +31,7 @@ public class DamageListeners implements Listener {
 		Entity damaged = event.getEntity();
 		
 		if(damager instanceof Arrow) {
-			GamePlayer shooter = HungerGames.getPlayer((Player) ((Arrow) damager).getShooter());
+			PaloozaPlayer shooter = HungerGames.getPlayer((Player) ((Arrow) damager).getShooter());
 			if(shooter.hasData("specialty")) {
 				Kit kit = (Kit) shooter.get("specialty");
 				if(kit != null) {
@@ -37,7 +39,7 @@ public class DamageListeners implements Listener {
 				}
 			}
 		} else if(damager instanceof Player) {
-			GamePlayer player = HungerGames.getPlayer((Player) damaged);
+			PaloozaPlayer player = HungerGames.getPlayer((Player) damaged);
 			if(player.hasData("specialty")) {
 				Kit kit = (Kit) player.get("specialty");
 				if(kit != null) {
@@ -52,32 +54,42 @@ public class DamageListeners implements Listener {
 				}
 			}
 		}
-		if(damaged instanceof Player) {
-			GamePlayer player = HungerGames.getPlayer((Player) damaged);
-			if(player.hasData("pecialty")) {
-				Kit kit = (Kit) player.get("specialty");
-				if(kit != null) {
-					event.setDamage(event.getDamage() / kit.getArmourModifier());
+	}
+	
+	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+	public void onPlayerDamage(EntityDamageEvent event) {
+		if(HungerGames.GAME_ENDED) {
+			event.setCancelled(true);
+			event.getEntity().sendMessage("ENDED");
+		} else {
+			if(event.getEntity() instanceof Player) {
+				PaloozaPlayer player = HungerGames.getPlayer((Player) event.getEntity());
+				if(player.hasData("pecialty")) {
+					Kit kit = (Kit) player.get("specialty");
+					boolean armor = true;
+					for(ItemStack item : player.getPlayer().getInventory().getArmorContents()) {
+						if(item == null) {
+							armor = false;
+							break;
+						}
+					}
+					if(kit != null && armor) {
+						event.setDamage(event.getDamage() / kit.getArmourModifier());
+						player.sendMessage(armor + "");
+					}
 				}
 			}
 		}
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR)
-	public void onPlayerDamage(EntityDamageEvent event) {
-		if(HungerGames.GAME_ENDED) {
-			event.setCancelled(true);
-		}
-	}
-	
-	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerDeath(PlayerDeathEvent event) {
-		GamePlayer player = HungerGames.getPlayer(event.getEntity());
+		PaloozaPlayer player = HungerGames.getPlayer(event.getEntity());
 		
 		if(!HungerGames.FEAST_STARTED) {
 			if(HungerGames.getGame().getPlayers().size() <= 8) {
 				ActionBar message = ActionBar.builder().title(ChatColor.BOLD + "" + ChatColor.GREEN + "DEATHMATCH WILL BE STARTING IN 60 SECONDS").build();
-				for(GamePlayer p : HungerGames.getGame().getPlayers()) {
+				for(PaloozaPlayer p : HungerGames.getGame().getPlayers()) {
 					message.send(p);
 				}
 				new BeginDeathmatch().runTask(HungerGames.getInstance());
@@ -89,9 +101,9 @@ public class DamageListeners implements Listener {
 			}
 		}
 		
-		if(player.inGame()) {
+		if(player.isOnline()) {
 			String killer = (player.getPlayer().getKiller() instanceof Player)? player.getPlayer().getKiller().getName() : event.getEntity().getLastDamageCause().getEntityType().name();
-			for(GamePlayer p : HungerGames.getGame().getPlayers()) {
+			for(PaloozaPlayer p : HungerGames.getGame().getPlayers()) {
 				p.sendMessage(ChatColor.GRAY + "" + ChatColor.BOLD + player.getName() + ChatColor.RESET + ChatColor.BLUE + " has been killed by " + ChatColor.GRAY + ChatColor.BOLD + killer + ChatColor.RESET + ChatColor.BLUE + " and eliminated");
 			}
 			

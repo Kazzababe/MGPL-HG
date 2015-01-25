@@ -11,8 +11,8 @@ import com.minigamepalooza.base.utils.ItemBuilder;
 public class Kit {
 	public static final List<Kit> KITS = new ArrayList<Kit>();
 	public static final Kit WARRIOR = new KitWarrior("Warrior", 1000, new ItemBuilder(Material.IRON_SWORD).setTitle("Warrior").addLore("Deals 10% more damage with swords and axes").build());
-	public static final Kit BRUTE = new KitBrute("Brute", 1000, new ItemBuilder(Material.DIAMOND_CHESTPLATE).setTitle("Brute").addLore("Takes 10% less damage while wearing armour").build());
-	public static final Kit HUNTER = new KitHunter("Hunter", 1000, new ItemBuilder(Material.BOW).setTitle("Hunter").addLore("Arrows fired deal 10% more damage").build());
+	public static final Kit BRUTE = new KitBrute("Brute", 1000, new ItemBuilder(Material.DIAMOND_CHESTPLATE).setTitle("Brute").addLore("Takes 25% less damage while wearing a full set of armour").build());
+	public static final Kit HUNTER = new KitHunter("Hunter", 1000, new ItemBuilder(Material.BOW).setTitle("Hunter").addLore("Arrows fired deal 25% more damage").build());
 	public static final Kit RUNNER = new KitRunner("Runner", 1000, new ItemBuilder(Material.LEATHER_BOOTS).setTitle("Runner").addLore("Move 10% faster").build());
 	
 	private double swordDamageModifier = 1.0;
