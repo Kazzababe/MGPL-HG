@@ -1,5 +1,7 @@
 package com.minigamepalooza.src.listeners;
 
+import net.md_5.bungee.api.ChatColor;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -14,6 +16,7 @@ import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerLoginEvent.Result;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import com.minigamepalooza.base.api.Title;
 import com.minigamepalooza.base.items.Items;
 import com.minigamepalooza.core.game.Game;
 import com.minigamepalooza.core.game.events.GameStartEvent;
@@ -28,19 +31,21 @@ public class GameListeners implements Listener {
 	public void onGameStart(GameStartEvent event) {
 		Game game = event.getGame();
 		if(game.getName() == HungerGames.NAME) {
+			Title title = Title.builder().title(ChatColor.BOLD + "" + ChatColor.GOLD + "" + ChatColor.UNDERLINE + "Welcome to the Arena tributes").sub(ChatColor.BOLD + "" + ChatColor.RED + "Good luck and may the odds be ever in your favor").fadeOut(20 * 1).stay(20 * 7).build();
 			for(Player player : Bukkit.getOnlinePlayers()) {
 				GamePlayer gamePlayer = HungerGames.getPlayer(player);
 				
 				gamePlayer.reset();
 				if(!gamePlayer.hasData("specialty")) {
 					gamePlayer.addData("specialty", Kit.WARRIOR);
-				} else {
-					Kit kit = (Kit) gamePlayer.get("specialty");
-					
-					player.setWalkSpeed(0.2F * (float) kit.getSpeedModifier());
-					player.setMaxHealth(kit.getHealth());
-					player.setHealth(player.getMaxHealth());
 				}
+				Kit kit = (Kit) gamePlayer.get("specialty");
+				
+				player.setWalkSpeed(0.2F * (float) kit.getSpeedModifier());
+				player.setMaxHealth(kit.getHealth());
+				player.setHealth(player.getMaxHealth());
+				
+				title.send(gamePlayer);
 			}
 		}
 		HungerGames.PREGAME_COOLDOWN = true;

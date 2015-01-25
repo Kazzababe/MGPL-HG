@@ -67,7 +67,7 @@ public class HungerGames extends PaloozaPlugin {
 		
 		GameSettings.respawn = false;
 		GameSettings.pvp = true;
-		GameSettings.hunger = false;
+		GameSettings.hunger = true;
 		GameSettings.maxPlayers = 24;
 		GameSettings.minPlayers = 1;
 		GameSettings.friendlyMobs = true;
