@@ -5,7 +5,6 @@ import org.bukkit.inventory.ItemStack;
 
 import com.minigamepalooza.base.gui.PlayerGUI;
 import com.minigamepalooza.base.player.PaloozaPlayer;
-import com.minigamepalooza.core.player.GamePlayer;
 import com.minigamepalooza.src.specializations.Kit;
 
 public class KitSelectionGUI extends PlayerGUI {

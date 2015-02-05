@@ -1,6 +1,5 @@
 package com.minigamepalooza.src.listeners;
 
-import com.minigamepalooza.base.api.ActionBar;
 import com.minigamepalooza.base.player.PaloozaPlayer;
 import com.minigamepalooza.core.player.GamePlayer;
 import com.minigamepalooza.src.HungerGames;
@@ -79,8 +78,11 @@ public class DamageListeners implements Listener {
 		
 		if(!HungerGames.FEAST_STARTED) {
 			if(HungerGames.getGame().getPlayers().size() <= 8) {
-				ActionBar message = ActionBar.builder().title(ChatColor.BOLD + "" + ChatColor.GREEN + "DEATHMATCH WILL BE STARTING IN 60 SECONDS").build();
-				HungerGames.getGame().getPlayers().forEach(message::send);
+				/*ActionBar message = ActionBar.builder().title(ChatColor.BOLD + "" + ChatColor.GREEN + "DEATHMATCH WILL BE STARTING IN 60 SECONDS").build();
+				HungerGames.getGame().getPlayers().forEach(message::send);*/
+				for(PaloozaPlayer p : HungerGames.getPlayers()) {
+					p.sendMessage(ChatColor.BOLD + "" + ChatColor.GREEN + "DEATHMATCH WILL BE STARTING IN 60 SECONDS");
+				}
 				new BeginDeathmatch().runTask(HungerGames.getInstance());
 				//new BeginFeast().runTaskLater(HungerGames.getInstance(), 100L);
 			}
@@ -90,11 +92,9 @@ public class DamageListeners implements Listener {
 			}
 		}
 		
-		if(player.inGame()) {
+		if(!player.isSpectating()) {
 			String killer = (player.getPlayer().getKiller() instanceof Player)? player.getPlayer().getKiller().getName() : event.getEntity().getLastDamageCause().getEntityType().name();
-			for(PaloozaPlayer p : HungerGames.getGame().getPlayers()) {
-				p.sendMessage(ChatColor.GRAY + "" + ChatColor.BOLD + player.getName() + ChatColor.RESET + ChatColor.BLUE + " has been killed by " + ChatColor.GRAY + ChatColor.BOLD + killer + ChatColor.RESET + ChatColor.BLUE + " and eliminated");
-			}
+			event.setDeathMessage(ChatColor.GRAY + "" + ChatColor.BOLD + player.getName() + ChatColor.RESET + ChatColor.BLUE + " has been killed by " + ChatColor.GRAY + ChatColor.BOLD + killer);
 			
 			FakePlayer fakePlayer = FakePlayer.spawnPlayer(event.getEntity(), true);
 			HungerGames.DEAD_PLAYERS.add(fakePlayer);

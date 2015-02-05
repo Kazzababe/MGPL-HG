@@ -1,5 +1,24 @@
 package com.minigamepalooza.src;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import me.paulbgd.blocks.api.BlocksAPI;
+import me.paulbgd.blocks.api.block.Blocks;
+import me.paulbgd.blocks.api.block.loader.SchematicFormat;
+import me.paulbgd.blocks.api.block.paster.Paster;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.scheduler.BukkitRunnable;
+
 import com.minigamepalooza.base.game.Games;
 import com.minigamepalooza.base.items.Items;
 import com.minigamepalooza.core.GameSettings;
@@ -11,23 +30,8 @@ import com.minigamepalooza.src.gui.KitSelectionItem;
 import com.minigamepalooza.src.listeners.DamageListeners;
 import com.minigamepalooza.src.listeners.GameListeners;
 import com.minigamepalooza.src.listeners.PlayerInteractListeners;
+import com.minigamepalooza.src.timers.BeginDeathmatch;
 import com.minigamepalooza.src.worlds.WorldSpawns;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import me.paulbgd.blocks.api.BlocksAPI;
-import me.paulbgd.blocks.api.block.Blocks;
-import me.paulbgd.blocks.api.block.loader.SchematicFormat;
-import me.paulbgd.blocks.api.block.paster.Paster;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.scheduler.BukkitRunnable;
 
 public class HungerGames extends PaloozaPlugin {
     private static HungerGames instance;
@@ -37,6 +41,7 @@ public class HungerGames extends PaloozaPlugin {
     public static boolean FEAST_STARTED = false;
     public static boolean GAME_ENDED = false;
     public static boolean GAME_READY = false;
+    public static boolean PREDM_COOLDOWN = false;
 
     public static World WORLD;
     public static WorldSpawns WORLD_SPAWN;

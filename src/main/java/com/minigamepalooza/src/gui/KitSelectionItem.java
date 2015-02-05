@@ -5,7 +5,6 @@ import org.bukkit.Material;
 import com.minigamepalooza.base.items.Item;
 import com.minigamepalooza.base.player.PaloozaPlayer;
 import com.minigamepalooza.base.utils.ItemBuilder;
-import com.minigamepalooza.core.player.GamePlayer;
 
 public class KitSelectionItem extends Item {
 

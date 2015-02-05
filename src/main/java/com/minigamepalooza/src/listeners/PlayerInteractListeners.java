@@ -6,7 +6,6 @@ import java.util.Set;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -44,7 +43,7 @@ public class PlayerInteractListeners implements Listener {
 		Location to = event.getTo();
 		Location from = event.getFrom();
 		
-		if(HungerGames.PREGAME_COOLDOWN) {
+		if(HungerGames.PREGAME_COOLDOWN || HungerGames.PREDM_COOLDOWN) {
 			if(!to.getBlock().equals(from.getBlock())) {
 				event.setTo(from);
 			}
