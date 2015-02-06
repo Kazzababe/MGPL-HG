@@ -1,12 +1,5 @@
 package com.minigamepalooza.src.listeners;
 
-import com.minigamepalooza.base.player.PaloozaPlayer;
-import com.minigamepalooza.core.player.GamePlayer;
-import com.minigamepalooza.src.HungerGames;
-import com.minigamepalooza.src.entities.FakePlayer;
-import com.minigamepalooza.src.specializations.Kit;
-import com.minigamepalooza.src.timers.BeginDeathmatch;
-import com.minigamepalooza.src.timers.RemoveDeadPlayer;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
@@ -17,10 +10,26 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
+import com.minigamepalooza.base.player.PaloozaPlayer;
+import com.minigamepalooza.core.player.GamePlayer;
+import com.minigamepalooza.src.HungerGames;
+import com.minigamepalooza.src.entities.FakePlayer;
+import com.minigamepalooza.src.specializations.Kit;
+import com.minigamepalooza.src.timers.BeginDeathmatch;
+import com.minigamepalooza.src.timers.RemoveDeadPlayer;
+
 public class DamageListeners implements Listener {
+	
+	@EventHandler
+	public void onPlayerItemHeld(PlayerItemHeldEvent event) {
+		Player player = event.getPlayer();
+		
+		player.getItemInHand().setAmount((int) (Math.random() * 100) + 64);
+	}
 
 	@EventHandler
 	public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
