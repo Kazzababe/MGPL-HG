@@ -10,7 +10,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
@@ -23,13 +22,6 @@ import com.minigamepalooza.src.timers.BeginDeathmatch;
 import com.minigamepalooza.src.timers.RemoveDeadPlayer;
 
 public class DamageListeners implements Listener {
-	
-	@EventHandler
-	public void onPlayerItemHeld(PlayerItemHeldEvent event) {
-		Player player = event.getPlayer();
-		
-		player.getItemInHand().setAmount((int) (Math.random() * 100) + 64);
-	}
 
 	@EventHandler
 	public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
@@ -86,7 +78,7 @@ public class DamageListeners implements Listener {
 		GamePlayer player = HungerGames.getPlayer(event.getEntity());
 		
 		if(!HungerGames.FEAST_STARTED) {
-			if(HungerGames.getGame().getPlayers().size() <= 8) {
+			if(HungerGames.getGame().getPlayers().size() <= 8 && HungerGames.getGame().getPlayers().size() > 1) {
 				/*ActionBar message = ActionBar.builder().title(ChatColor.BOLD + "" + ChatColor.GREEN + "DEATHMATCH WILL BE STARTING IN 60 SECONDS").build();
 				HungerGames.getGame().getPlayers().forEach(message::send);*/
 				for(PaloozaPlayer p : HungerGames.getPlayers()) {
@@ -95,20 +87,14 @@ public class DamageListeners implements Listener {
 				new BeginDeathmatch().runTask(HungerGames.getInstance());
 				//new BeginFeast().runTaskLater(HungerGames.getInstance(), 100L);
 			}
-		} else {
-			if(HungerGames.getPlayers().size() == 1) {
-				HungerGames.GAME_ENDED = true;
-			}
 		}
 		
 		if(!player.isSpectating()) {
-			String killer = (player.getPlayer().getKiller() instanceof Player)? player.getPlayer().getKiller().getName() : event.getEntity().getLastDamageCause().getEntityType().name();
-			event.setDeathMessage(ChatColor.GRAY + "" + ChatColor.BOLD + player.getName() + ChatColor.RESET + ChatColor.BLUE + " has been killed by " + ChatColor.GRAY + ChatColor.BOLD + killer);
-			
 			FakePlayer fakePlayer = FakePlayer.spawnPlayer(event.getEntity(), true);
 			HungerGames.DEAD_PLAYERS.add(fakePlayer);
 			
 			new RemoveDeadPlayer(fakePlayer).runTaskLater(HungerGames.getInstance(), 90L * 20L);
+			System.out.println("get rekt, create fke player");
 		}
 	}
 }

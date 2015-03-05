@@ -70,7 +70,6 @@ public class LootUtility {
 		weaponLoot.add(new Loot(new ItemStack(Material.STONE_AXE), 1, 1, 17));
 		weaponLoot.add(new Loot(new ItemStack(Material.GOLD_SWORD), 1, 1, 20));
 		weaponLoot.add(new Loot(new ItemStack(Material.WOOD_AXE), 1, 1, 25));
-		weaponLoot.add(new Loot(new ItemStack(Material.FLINT_AND_STEEL), 1, 1, 14));
 		
 		foodLoot.add(new Loot(new ItemStack(Material.APPLE), 1, 4, 16));
 		foodLoot.add(new Loot(new ItemStack(Material.BREAD), 3, 7, 20));

@@ -9,7 +9,7 @@ public class CustomGameType implements GameType {
 
 	@Override
 	public boolean isGameOver(Game game) {
-		return HungerGames.GAME_ENDED;
+		return game.getPlayers().size() <= 1;
 	}
 
 	@Override
